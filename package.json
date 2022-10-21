@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NazmusSayad/cache-basic-vite.git"
+    "url": "git+https://github.com/NazmusSayad/vite-basic-cache.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NazmusSayad/cache-basic-vite/issues"
+    "url": "https://github.com/NazmusSayad/vite-basic-cache/issues"
   },
-  "homepage": "https://github.com/NazmusSayad/cache-basic-vite#readme"
+  "homepage": "https://github.com/NazmusSayad/vite-basic-cache#readme"
 }
