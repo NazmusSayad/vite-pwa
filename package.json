@@ -1,0 +1,33 @@
+{
+  "name": "vite-basic-cache",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nodemon test",
+    "build": "npx tsup ./index.js --format cjs,esm -d build"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NazmusSayad/cache-basic-vite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NazmusSayad/cache-basic-vite/issues"
+  },
+  "homepage": "https://github.com/NazmusSayad/cache-basic-vite#readme",
+  "devDependencies": {
+    "tsup": "^6.3.0"
+  }
+}
