@@ -4,17 +4,14 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "nodemon test",
     "build": "npx tsup ./index.js --format cjs,esm -d build"
   },
   "exports": {
     ".": {
-      "require": "./build/index.js",
-      "import": "./build/index.mjs"
+      "require": "./build/index.cjs",
+      "import": "./build/index.js"
     }
   },
   "repository": {
@@ -29,5 +26,8 @@
   "homepage": "https://github.com/NazmusSayad/cache-basic-vite#readme",
   "devDependencies": {
     "tsup": "^6.3.0"
+  },
+  "dependencies": {
+    "vite-basic-cache": "^1.0.1"
   }
 }
