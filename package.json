@@ -1,6 +1,6 @@
 {
   "name": "vite-basic-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -13,8 +13,8 @@
   },
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./build/index.js",
+      "import": "./build/index.mjs"
     }
   },
   "repository": {
