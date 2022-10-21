@@ -3,8 +3,8 @@ module.exports = (path, __dirname) =>
     swDest = 'sw.js',
     registerSwDest = 'registerSw.js',
     cacheSw = true,
-    preCache = ['/sw.js', '/manifest.json', '/icon.ico'],
-    preCacheRegex = true,
+    preCache = [],
+    preCacheRegex = null,
     preCacheName = 'pre-cache',
     runtimeCacheName = 'runtime-cache',
   } = {}) {
