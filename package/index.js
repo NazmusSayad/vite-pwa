@@ -2,8 +2,8 @@ module.exports = (path, __dirname) =>
   function viteBasicCache({
     swDest = 'sw.js',
     registerSwDest = 'registerSw.js',
-    cacheSw = true,
-    preCache = [],
+    preCacheSw = true,
+    preCacheFiles = [],
     preCacheRegex = null,
     preCacheName = 'pre-cache',
     runtimeCacheName = 'runtime-cache',
@@ -17,7 +17,9 @@ module.exports = (path, __dirname) =>
     swDest = path.join('/', swDest)
     registerSwDest = path.join('/', registerSwDest)
 
-    if (cacheSw) preCache.push(swDest)
+    if (preCacheSw) {
+      preCacheFiles.push(swDest, registerSwDest)
+    }
     let swFileRef, registerSwRef
 
     return {
@@ -46,7 +48,7 @@ module.exports = (path, __dirname) =>
           const matchedFiles = Object.keys(modules).filter(fileName =>
             preCacheRegex.test(fileName)
           )
-          preCache.push(
+          preCacheFiles.push(
             ...matchedFiles.map(fileName => path.join('/', fileName))
           )
         }
@@ -61,7 +63,7 @@ module.exports = (path, __dirname) =>
         const newCode = swFile.code
           .replace(
             '[preCacheFiles]',
-            JSON.stringify(Array.from(new Set(preCache)))
+            JSON.stringify(Array.from(new Set(preCacheFiles)))
           )
           .replace('preCache', preCacheName)
           .replace('runtimeCache', runtimeCacheName)
