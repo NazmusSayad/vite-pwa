@@ -1,6 +1,7 @@
-const preCache = 'preCache'
-const runtimeCache = 'runtimeCache'
-const assets = [preCacheFiles]
+const preCache = '_preCache_'
+const runtimeCache = '_runtimeCache_'
+const assets = _preCacheFiles_
+const spa = _spaEnabled_
 
 self.addEventListener('activate', evt => {
   evt.waitUntil(
@@ -17,12 +18,18 @@ self.addEventListener('fetch', evt => {
       caches.match(evt.request).then(cacheRes => {
         return (
           cacheRes ||
-          fetch(evt.request).then(fetchRes => {
-            return caches.open(runtimeCache).then(cache => {
-              cache.put(evt.request.url, fetchRes.clone())
-              return fetchRes
+          fetch(evt.request)
+            .then(fetchRes => {
+              return caches.open(runtimeCache).then(cache => {
+                cache.put(evt.request.url, fetchRes.clone())
+                return fetchRes
+              })
             })
-          })
+            .catch(() => {
+              if (spa) {
+                return caches.match(new Request('/')).then(cacheRes => cacheRes)
+              }
+            })
         )
       })
     )

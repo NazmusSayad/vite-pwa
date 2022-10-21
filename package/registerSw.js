@@ -1,5 +1,5 @@
 ;(async () => {
   try {
-    await navigator.serviceWorker.register('{swDest}')
+    await navigator.serviceWorker.register('_swDest_')
   } catch {}
 })()

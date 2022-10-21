@@ -1,6 +1,7 @@
 module.exports = (path, __dirname) =>
   function viteBasicCache({
     swDest = 'sw.js',
+    spaEnabled = true,
     registerSwDest = 'registerSw.js',
     preCacheSw = true,
     preCacheFiles = [],
@@ -59,21 +60,22 @@ module.exports = (path, __dirname) =>
         registerSwFile.fileName = registerSwDest.replace(/^\//, '')
         swFile.fileName = swDest.replace(/^\//, '')
 
-        registerSwFile.code = registerSwFile.code.replace('{swDest}', swDest)
-        const newCode = swFile.code
+        registerSwFile.code = registerSwFile.code.replace('_swDest_', swDest)
+        const replacedCode = swFile.code
           .replace(
-            '[preCacheFiles]',
+            '_preCacheFiles_',
             JSON.stringify(Array.from(new Set(preCacheFiles)))
           )
-          .replace('preCache', preCacheName)
-          .replace('runtimeCache', runtimeCacheName)
+          .replace('_preCache_', preCacheName)
+          .replace('_runtimeCache_', runtimeCacheName)
+          .replace('_spaEnabled_', spaEnabled)
 
         swFile.code =
-          newCode +
-          `\n// RANDOM: ${
-            Math.random() * Math.random() +
-            Math.random() -
-            Math.random() / Math.random()
+          replacedCode +
+          `// Reference: ${
+            Math.random().toString(35) +
+            Math.random().toString(35) +
+            Math.random().toString(36)
           }`
       },
     }
