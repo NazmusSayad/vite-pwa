@@ -1,2 +1,2 @@
-import data from 'vite-basic-cache'
-console.log(data)
+import name from '../package/index.mjs'
+console.log(name)

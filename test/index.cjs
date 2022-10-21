@@ -1,2 +1,2 @@
-const { default: data } = require('vite-basic-cache')
-console.log(data)
+const name = require('../package/index.cjs')
+console.log(name)
