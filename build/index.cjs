@@ -1,27 +1,3 @@
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// index.js
-var cache_basic_vite_exports = {};
-__export(cache_basic_vite_exports, {
-  default: () => cache_basic_vite_default
-});
-module.exports = __toCommonJS(cache_basic_vite_exports);
-var cache_basic_vite_default = "Hello";
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {});
+var S=Object.create;var c=Object.defineProperty;var _=Object.getOwnPropertyDescriptor;var O=Object.getOwnPropertyNames;var k=Object.getPrototypeOf,A=Object.prototype.hasOwnProperty;var E=(e,t)=>{for(var i in t)c(e,i,{get:t[i],enumerable:!0})},u=(e,t,i,r)=>{if(t&&typeof t=="object"||typeof t=="function")for(let n of O(t))!A.call(e,n)&&n!==i&&c(e,n,{get:()=>t[n],enumerable:!(r=_(t,n))||r.enumerable});return e};var I=(e,t,i)=>(i=e!=null?S(k(e)):{},u(t||!e||!e.__esModule?c(i,"default",{value:e,enumerable:!0}):i,e)),R=e=>u(c({},"__esModule",{value:!0}),e);var b={};E(b,{default:()=>j});module.exports=R(b);var a=I(require("path"),1);function j({swDest:e="sw.js",registerSwDest:t="registerSw.js",cacheSw:i=!0,preCache:r=["/sw.js","/manifest.json","/icon.ico"],preCacheRegex:n=!0,preCacheName:F="pre-cache",runtimeCacheName:g="runtime-cache"}={}){let p="PWA-caching";if(process.env.NODE_ENV!=="production")return{name:p};let N=a.default.join(__dirname,"./sw.js"),w=a.default.join(__dirname,"./registerSw.js");e=a.default.join("/",e),t=a.default.join("/",t),i&&r.push(e);let d,h;return{name:p,buildStart(){d=this.emitFile({type:"chunk",id:N}),h=this.emitFile({type:"chunk",id:w})},transformIndexHtml(f){return f.replace("</head>",`  <script type="module" src="${t}"><\/script>
+  </head>`)},generateBundle(f,o){if(n instanceof RegExp){let M=Object.keys(o).filter(m=>n.test(m));r.push(...M.map(m=>a.default.join("/",m)))}let s=o[this.getFileName(h)],l=o[this.getFileName(d)];s.fileName=t.replace(/^\//,""),l.fileName=e.replace(/^\//,""),s.code=s.code.replace("{swDest}",e);let y=l.code.replace("[preCacheFiles]",JSON.stringify(Array.from(new Set(r)))).replace("preCache",F).replace("runtimeCache",g);l.code=y+`
+// RANDOM: ${Math.random()*Math.random()+Math.random()-Math.random()/Math.random()}`}}}0&&(module.exports={});

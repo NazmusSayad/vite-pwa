@@ -575,11 +575,6 @@
     "sucrase" "^3.20.3"
     "tree-kill" "^1.2.2"
 
-"vite-basic-cache@^1.0.1":
-  "integrity" "sha512-1V9WC43doPNH56reXT/lr3cXwz5N/PT/0Nz7OU0fQrAvIpncvOyX71Orm0NczXYLimf2/76+Z4sWMum29bOGnQ=="
-  "resolved" "https://registry.npmjs.org/vite-basic-cache/-/vite-basic-cache-1.0.1.tgz"
-  "version" "1.0.1"
-
 "webidl-conversions@^4.0.2":
   "integrity" "sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg=="
   "resolved" "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-4.0.2.tgz"
