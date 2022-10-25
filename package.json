@@ -1,7 +1,7 @@
 {
   "name": "vite-pwa",
   "description": "This package helps you to cache your files with service worker.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "commonjs",
   "author": "https://github.com/NazmusSayad",
   "scripts": {},
