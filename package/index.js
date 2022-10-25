@@ -1,8 +1,8 @@
 module.exports = (path, __dirname) =>
   function viteBasicCache({
-    swDest = 'sw.js',
+    swDest = 'sw',
+    registerSwDest = 'registerSw',
     spaEnabled = true,
-    registerSwDest = 'registerSw.js',
     preCacheSw = true,
     preCacheFiles = [],
     preCacheRegex = null,
@@ -12,11 +12,11 @@ module.exports = (path, __dirname) =>
     const name = 'PWA-caching'
     if (process.env.NODE_ENV !== 'production') return { name }
 
+    swDest = path.join('/', swDest) + '.js'
+    registerSwDest = path.join('/', registerSwDest) + '.js'
+
     const swJsInput = path.join(__dirname, './sw.js')
     const registerSwInput = path.join(__dirname, './registerSw.js')
-
-    swDest = path.join('/', swDest)
-    registerSwDest = path.join('/', registerSwDest)
 
     if (preCacheSw) {
       preCacheFiles.push(swDest, registerSwDest)
@@ -46,11 +46,11 @@ module.exports = (path, __dirname) =>
 
       generateBundle(config, modules) {
         if (preCacheRegex instanceof RegExp) {
-          const matchedFiles = Object.keys(modules).filter(fileName =>
+          const matchedFiles = Object.keys(modules).filter((fileName) =>
             preCacheRegex.test(fileName)
           )
           preCacheFiles.push(
-            ...matchedFiles.map(fileName => path.join('/', fileName))
+            ...matchedFiles.map((fileName) => path.join('/', fileName))
           )
         }
 
