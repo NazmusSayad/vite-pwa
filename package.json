@@ -1,7 +1,7 @@
 {
-  "name": "vite-basic-cache",
+  "name": "vite-pwa",
   "description": "This package helps you to cache your files with service worker.",
-  "version": "1.1.5",
+  "version": "0.0.2",
   "type": "commonjs",
   "scripts": {},
   "exports": {
@@ -12,12 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NazmusSayad/vite-basic-cache.git"
+    "url": "git+https://github.com/NazmusSayad/vite-pwa.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NazmusSayad/vite-basic-cache/issues"
+    "url": "https://github.com/NazmusSayad/vite-pwa/issues"
   },
-  "homepage": "https://github.com/NazmusSayad/vite-basic-cache#readme"
+  "homepage": "https://github.com/NazmusSayad/vite-pwa#readme",
+  "dependencies": {
+    "glob": "^8.0.3"
+  }
 }

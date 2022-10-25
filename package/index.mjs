@@ -1,6 +1,4 @@
-import path from 'path'
-import * as url from 'url'
+import fs from 'fs'
+import { posix as path } from 'path'
 import factory from './index.js'
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
-export default factory(path, __dirname)
+export default factory({ path, fs })

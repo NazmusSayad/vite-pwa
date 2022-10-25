@@ -1,27 +1,35 @@
-module.exports = (path, __dirname) =>
+const readDir = require('./scripts/readDir')
+const { getRelativePath, getRandomRef } = require('./scripts/utils')
+
+module.exports = ({ path, fs }) =>
   function viteBasicCache({
     swDest = 'sw',
     registerSwDest = 'registerSw',
-    spaEnabled = true,
+    mapDest = 'files',
+    map: mapEnabled = true,
+    spa: spaEnabled = true,
     preCacheSw = true,
     preCacheFiles = [],
-    preCacheRegex = null,
+    preCacheFilter = null,
     preCacheName = 'pre-cache',
     runtimeCacheName = 'runtime-cache',
   } = {}) {
-    const name = 'PWA-caching'
+    const name = 'Vite-PWA'
     if (process.env.NODE_ENV !== 'production') return { name }
 
-    swDest = path.join('/', swDest) + '.js'
-    registerSwDest = path.join('/', registerSwDest) + '.js'
+    // Format file inputs
+    mapDest = path.join('/', mapDest)
+    swDest = path.join('/', `${swDest}.js`)
+    registerSwDest = path.join('/', `${registerSwDest}.js`)
 
+    // Source files
     const swJsInput = path.join(__dirname, './sw.js')
     const registerSwInput = path.join(__dirname, './registerSw.js')
 
+    let swFileRef, registerSwRef
     if (preCacheSw) {
       preCacheFiles.push(swDest, registerSwDest)
     }
-    let swFileRef, registerSwRef
 
     return {
       name,
@@ -44,39 +52,69 @@ module.exports = (path, __dirname) =>
         )
       },
 
-      generateBundle(config, modules) {
-        if (preCacheRegex instanceof RegExp) {
-          const matchedFiles = Object.keys(modules).filter((fileName) =>
-            preCacheRegex.test(fileName)
+      generateBundle(config, bundle) {
+        const registerSwFile = bundle[this.getFileName(registerSwRef)]
+        const swFile = bundle[this.getFileName(swFileRef)]
+
+        registerSwFile.fileName = getRelativePath(registerSwDest)
+        swFile.fileName = getRelativePath(swDest)
+
+        registerSwFile.code = registerSwFile.code.replace('_swDest_', swDest)
+      },
+
+      writeBundle(config, bundle) {
+        const allFiles = readDir({ path, fs }, config.dir)
+
+        // Path mappings:
+        if (mapEnabled) {
+          const buildFiles = Object.values(bundle).map(
+            ({ fileName }) => fileName
           )
-          preCacheFiles.push(
-            ...matchedFiles.map((fileName) => path.join('/', fileName))
+
+          const allMapFile = getRelativePath(mapDest) + '.all.json'
+          const buildMapFile = getRelativePath(mapDest) + '.build.json'
+          allFiles.push(allMapFile, buildMapFile)
+
+          fs.writeFileSync(
+            path.join(config.dir, allMapFile),
+            JSON.stringify(allFiles)
+          )
+          fs.writeFileSync(
+            path.join(config.dir, buildMapFile),
+            JSON.stringify(buildFiles)
           )
         }
 
-        const registerSwFile = modules[this.getFileName(registerSwRef)]
-        const swFile = modules[this.getFileName(swFileRef)]
-
-        registerSwFile.fileName = registerSwDest.replace(/^\//, '')
-        swFile.fileName = swDest.replace(/^\//, '')
-
-        registerSwFile.code = registerSwFile.code.replace('_swDest_', swDest)
-        const replacedCode = swFile.code
-          .replace(
-            '_preCacheFiles_',
-            JSON.stringify(Array.from(new Set(preCacheFiles)))
+        // SW Filter:
+        if (preCacheFilter === true) {
+          preCacheFiles.push(...allFiles)
+        } else if (preCacheFilter instanceof RegExp) {
+          const matchedFiles = allFiles.filter((fileName) =>
+            preCacheFilter.test(fileName)
           )
-          .replace('_preCache_', preCacheName)
-          .replace('_runtimeCache_', runtimeCacheName)
-          .replace('_spaEnabled_', spaEnabled)
+          preCacheFiles.push(...matchedFiles)
+        } else if (preCacheFilter instanceof Function) {
+          const matchedFiles = allFiles.filter((fileName) =>
+            preCacheFilter(fileName)
+          )
+          preCacheFiles.push(...matchedFiles)
+        }
 
-        swFile.code =
-          replacedCode +
-          `// Reference: ${
-            Math.random().toString(35) +
-            Math.random().toString(35) +
-            Math.random().toString(36)
-          }`
+        const swFile = bundle[this.getFileName(swFileRef)]
+        const swFilePath = path.join(config.dir, swFile.fileName)
+
+        const uniqueFiles = Array.from(
+          new Set(preCacheFiles.map((file) => path.join('/', file)))
+        )
+        const replacedCode =
+          swFile.code
+            .replace('_preCache_', preCacheName)
+            .replace('_runtimeCache_', runtimeCacheName)
+            .replace('_spaEnabled_', spaEnabled)
+            .replace('_preCacheFiles_', JSON.stringify(uniqueFiles)) +
+          getRandomRef()
+
+        fs.writeFileSync(swFilePath, replacedCode)
       },
     }
   }
