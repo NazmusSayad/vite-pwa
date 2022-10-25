@@ -4,8 +4,8 @@ const { getRelativePath, getRandomRef } = require('./scripts/utils')
 module.exports = ({ path, fs }) =>
   function viteBasicCache({
     swDest = 'sw',
-    registerSwDest = 'registerSw',
-    mapDest = 'files',
+    registerSwDest = 'swRegister',
+    mapDest = 'mappings',
 
     map: mapEnabled = false,
     spa: spaEnabled = true,
@@ -92,7 +92,6 @@ module.exports = ({ path, fs }) =>
         }
 
         // SW Filter:
-
         let matchedFiles = []
         if (preCacheFilter === true) {
           matchedFiles = allFiles
@@ -111,6 +110,7 @@ module.exports = ({ path, fs }) =>
         }
         preCacheFiles.push(...matchedFiles.map((file) => path.join('/', file)))
 
+        // SW operations:
         const swFile = bundle[this.getFileName(swFileRef)]
         const swFilePath = path.join(config.dir, swFile.fileName)
 
