@@ -6,11 +6,14 @@ module.exports = ({ path, fs }) =>
     swDest = 'sw',
     registerSwDest = 'registerSw',
     mapDest = 'files',
-    map: mapEnabled = true,
+
+    map: mapEnabled = false,
     spa: spaEnabled = true,
+
     preCacheSw = true,
     preCacheFiles = [],
     preCacheFilter = null,
+
     preCacheName = 'pre-cache',
     runtimeCacheName = 'runtime-cache',
   } = {}) {
@@ -75,6 +78,9 @@ module.exports = ({ path, fs }) =>
           const buildMapFile = getRelativePath(mapDest) + '.build.json'
           allFiles.push(allMapFile, buildMapFile)
 
+          fs.mkdirSync(path.join(config.dir, path.dirname(allMapFile)), {
+            recursive: true,
+          })
           fs.writeFileSync(
             path.join(config.dir, allMapFile),
             JSON.stringify(allFiles)
@@ -86,26 +92,29 @@ module.exports = ({ path, fs }) =>
         }
 
         // SW Filter:
+
+        let matchedFiles = []
         if (preCacheFilter === true) {
-          preCacheFiles.push(...allFiles)
-        } else if (preCacheFilter instanceof RegExp) {
-          const matchedFiles = allFiles.filter((fileName) =>
-            preCacheFilter.test(fileName)
+          matchedFiles = allFiles
+        } else {
+          const filter = (...args) => {
+            if (preCacheFilter instanceof Function) {
+              return preCacheFilter(...args)
+            } else if (preCacheFilter instanceof RegExp) {
+              return preCacheFilter.test(...args)
+            }
+          }
+
+          matchedFiles = allFiles.filter(
+            (fileName) => filter && filter(fileName)
           )
-          preCacheFiles.push(...matchedFiles)
-        } else if (preCacheFilter instanceof Function) {
-          const matchedFiles = allFiles.filter((fileName) =>
-            preCacheFilter(fileName)
-          )
-          preCacheFiles.push(...matchedFiles)
         }
+        preCacheFiles.push(...matchedFiles.map((file) => path.join('/', file)))
 
         const swFile = bundle[this.getFileName(swFileRef)]
         const swFilePath = path.join(config.dir, swFile.fileName)
 
-        const uniqueFiles = Array.from(
-          new Set(preCacheFiles.map((file) => path.join('/', file)))
-        )
+        const uniqueFiles = Array.from(new Set(preCacheFiles))
         const replacedCode =
           swFile.code
             .replace('_preCache_', preCacheName)

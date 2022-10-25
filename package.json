@@ -19,8 +19,5 @@
   "bugs": {
     "url": "https://github.com/NazmusSayad/vite-pwa/issues"
   },
-  "homepage": "https://github.com/NazmusSayad/vite-pwa#readme",
-  "dependencies": {
-    "glob": "^8.0.3"
-  }
+  "homepage": "https://github.com/NazmusSayad/vite-pwa#readme"
 }
