@@ -1,8 +1,4 @@
 console.clear()
+process.env.NODE_ENV = 'production'
 const { default: local } = require('../dist/cjs/index.js')
-console.log({ local })
-
-console.log('-----------------------')
-
-const { default: npm } = require('@nazmussayad/npm')
-console.log({ npm })
+console.log(local())
