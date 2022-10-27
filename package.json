@@ -1,37 +1,39 @@
 {
-  "name": "vite-pwa",
-  "description": "This package helps you to cache your files with service worker.",
-  "version": "0.0.6",
-  "type": "commonjs",
-  "author": "https://github.com/NazmusSayad",
-  "scripts": {},
-  "license": "ISC",
+  "name": "@nazmussayad/npm",
+  "version": "0.1.10",
+  "description": "npm-package-boilerplate",
+  "main": "./dist/mjs/index.js",
+  "types": "./dist/mjs/index.d.js",
   "exports": {
     ".": {
-      "require": "./package/index.cjs",
-      "import": "./package/index.mjs"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/mjs/index.js"
     }
   },
-  "keywords": [
-    "pwa",
-    "vite",
-    "manifest",
-    "service worker",
-    "offline caching",
-    "offline web app",
-    "progressive web app",
-    "service worker caching",
-    "vite pwa",
-    "vite plugin",
-    "vite pwa plugin",
-    "vite plugin pwa"
-  ],
-  "bugs": {
-    "url": "https://github.com/NazmusSayad/vite-pwa/issues"
+  "scripts": {
+    "cjs": "nodemon test/index.cjs",
+    "mjs": "nodemon test/index.mjs",
+    "pkg": "yarn add -D @nazmussayad/npm@latest",
+    "dev": "node dist.js && tsc -p tsconfig-cjs.json -w",
+    "build": "node build.js",
+    "update": "node update.js"
   },
+  "dependencies": {},
+  "devDependencies": {
+    "@nazmussayad/npm": "^0.1.6",
+    "@types/node": "latest",
+    "node-ls-files": "0.0.1",
+    "typescript": "latest"
+  },
+  "type": "module",
+  "license": "ISC",
+  "author": "https://github.com/NazmusSayad",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NazmusSayad/vite-pwa.git"
+    "url": "git+https://github.com/NazmusSayad/npm-package-boilerplate.git"
   },
-  "homepage": "https://github.com/NazmusSayad/vite-pwa#readme"
+  "bugs": {
+    "url": "https://github.com/NazmusSayad/npm-package-boilerplate/issues"
+  },
+  "homepage": "https://github.com/NazmusSayad/npm-package-boilerplate#readme"
 }
