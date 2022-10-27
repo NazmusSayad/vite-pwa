@@ -47,5 +47,8 @@
     "vite-pwa-plugin",
     "vite-plugin-pwa"
   ],
+  "engines": {
+    "node": "*"
+  },
   "homepage": "https://github.com/NazmusSayad/vite-pwa#readme"
 }
