@@ -20,7 +20,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/node": "latest",
-    "node-ls-files": "0.0.1",
+    "node-ls-files": "^0.0.3",
     "typescript": "latest"
   },
   "type": "module",
