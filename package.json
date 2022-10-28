@@ -1,6 +1,6 @@
 {
   "name": "vite-pwa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This package helps you to cache your files with service worker.",
   "main": "./dist/mjs/index.js",
   "types": "./dist/mjs/index.d.js",
