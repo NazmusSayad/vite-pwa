@@ -8,6 +8,16 @@ class Build {
     return `tsc -p ${path}`
   }
 
+  runCmd(cmdStr) {
+    try {
+      const res = cmd.execSync(cmdStr)?.toString().trim()
+      res && console.log(res)
+    } catch (err) {
+      const msg = (err.output ?? err.stderr)?.toString().trim()
+      msg && console.log(msg)
+    }
+  }
+
   cjsCmd = 'tsconfig-cjs.json'
   mjsCmd = 'tsconfig-mjs.json'
 
@@ -31,9 +41,11 @@ let __dirname=______file___URL___To___Path______(new URL('.',import.meta.url));
   }
 
   build() {
+    console.log('Cleaning up...')
     this.cleanBuild()
     this.copyFiles()
 
+    console.log('Build started...')
     this.runCjsBuild()
     this.runMjsBuild()
   }
@@ -56,11 +68,11 @@ let __dirname=______file___URL___To___Path______(new URL('.',import.meta.url));
   }
 
   runCjsBuild() {
-    cmd.execSync(this.cjsCmd)
+    this.runCmd(this.cjsCmd)
   }
 
   runMjsBuild() {
-    cmd.execSync(this.mjsCmd)
+    this.runCmd(this.mjsCmd)
 
     const files = lsFiles.sync(this.mjsDir, {
       filter: /\.m?js$/,

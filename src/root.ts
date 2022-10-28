@@ -1,17 +1,26 @@
 import path from 'path'
 
+export type ConfigOptional = {
+  swDest?: string
+  swRegisterDest?: string
+  mapDest?: string
+  map?: boolean
+  spa?: boolean
+  preCacheSw?: boolean
+  preCacheFiles?: string[]
+  preCacheFilter?: any
+  preCacheName?: string
+  runtimeCacheName?: string
+}
 export type Config = {
   swDest: string
   swRegisterDest: string
   mapDest: string
-
   map: boolean
   spa: boolean
-
   preCacheSw: boolean
   preCacheFiles: string[]
-  preCacheFilter: true | RegExp | Function | any
-
+  preCacheFilter: boolean | RegExp | Function | any
   preCacheName: string
   runtimeCacheName: string
 }
@@ -27,14 +36,11 @@ export const defaultConfig: Config = {
   swDest: 'sw',
   swRegisterDest: 'swRegister',
   mapDest: 'mappings',
-
-  map: true,
+  map: false,
   spa: true,
-
   preCacheSw: true,
   preCacheFiles: [],
   preCacheFilter: null,
-
   preCacheName: 'pre-cache',
   runtimeCacheName: 'runtime-cache',
 }
@@ -48,7 +54,7 @@ export const swRegisterInputFile = path.join(
 )
 
 export const getRandomRef = () => {
-  return `// Reference: ${
+  return `// ${
     Math.random().toString(35) +
     Math.random().toString(35) +
     Math.random().toString(36)

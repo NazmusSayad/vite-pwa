@@ -9,11 +9,11 @@ export default (conf: root.Config, eConf: root.ExtraConfig) => {
 
   return {
     buildStart() {
-      swRef = this['emitFile']({
+      swRef = this.emitFile({
         type: 'chunk',
         id: root.swInputFile,
       })
-      swRegisterRef = this['emitFile']({
+      swRegisterRef = this.emitFile({
         type: 'chunk',
         id: root.swRegisterInputFile,
       })
@@ -27,8 +27,8 @@ export default (conf: root.Config, eConf: root.ExtraConfig) => {
     },
 
     generateBundle(config, bundle) {
-      const swFile = bundle[this['getFileName'](swRef)]
-      const registerSwFile = bundle[this['getFileName'](swRegisterRef)]
+      const swFile = bundle[this.getFileName(swRef)]
+      const registerSwFile = bundle[this.getFileName(swRegisterRef)]
 
       swFile.fileName = eConf.swDest
       registerSwFile.fileName = eConf.swRegisterDest
@@ -40,12 +40,17 @@ export default (conf: root.Config, eConf: root.ExtraConfig) => {
       const allFiles = lsFiles.sync(config.dir, {
         relative: true,
         separator: '/',
+        prefix: '/',
       })
 
       // Path mappings:
       if (conf.map) {
+        allFiles.push(
+          path.join('/', eConf.mapAllDest),
+          path.join('/', eConf.mapBuildDest)
+        )
+
         const buildFiles = Object.values(bundle).map(({ fileName }) => fileName)
-        allFiles.push(eConf.mapAllDest, eConf.mapBuildDest)
 
         fs.mkdirSync(path.join(config.dir, path.dirname(eConf.mapAllDest)), {
           recursive: true,
@@ -62,11 +67,12 @@ export default (conf: root.Config, eConf: root.ExtraConfig) => {
 
       // SW Filter:
       let matchedFiles: string[] = []
+
       if (conf.preCacheFilter === true) {
         matchedFiles = allFiles
       } else if (conf.preCacheFilter instanceof Function) {
         matchedFiles = allFiles.filter((fileName) =>
-          conf.preCacheFilter(fileName)
+          conf.preCacheFilter(path.parse(fileName), fileName)
         )
       } else if (conf.preCacheFilter instanceof RegExp) {
         matchedFiles = allFiles.filter((fileName) =>
@@ -74,13 +80,11 @@ export default (conf: root.Config, eConf: root.ExtraConfig) => {
         )
       }
 
-      conf.preCacheFiles.push(
-        ...matchedFiles.map((file) => path.join('/', file))
-      )
+      conf.preCacheFiles.push(...matchedFiles)
 
       // SW operations:
-      const swFile = bundle[this['getFileName'](swRef)]
-      const swFilePath = path.join(config.dir, swFile.fileName)
+      const swFile = bundle[this.getFileName(swRef)]
+      const swFullPath = path.join(config.dir, swFile.fileName)
 
       const uniqueFiles = Array.from(new Set(conf.preCacheFiles))
       const replacedCode =
@@ -91,7 +95,13 @@ export default (conf: root.Config, eConf: root.ExtraConfig) => {
           .replace('_preCacheFiles_', JSON.stringify(uniqueFiles)) +
         root.getRandomRef()
 
-      fs.writeFileSync(swFilePath, replacedCode)
+      fs.writeFileSync(swFullPath, replacedCode)
+    },
+
+    // IGNORE:
+    emitFile(_) {},
+    getFileName(_): string {
+      return 'none'
     },
   }
 }

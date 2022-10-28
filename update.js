@@ -34,19 +34,7 @@ const updateVersion = (state = 1) => {
 builder.build()
 updateVersion()
 
-try {
-  const res = cmd.execSync('npm publish')
-  console.log(res.toString())
-} catch (err) {
-  console.log(err.stderr.toString())
-  updateVersion(-1)
-}
-
-try {
-  cmd.execSync('git add .')
-  cmd.execSync(`git commit -m "update ${param}@${packageData.version}"`)
-  const res = cmd.execSync('git push')
-  console.log(res.toString())
-} catch (err) {
-  console.log(err.stderr.toString())
-}
+builder.runCmd('npm publish')
+builder.runCmd('git add .')
+builder.runCmd(`git commit -m "update ${param}@${packageData.version}"`)
+builder.runCmd('git push')
