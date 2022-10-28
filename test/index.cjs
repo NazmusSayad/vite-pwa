@@ -1,2 +1,4 @@
-const name = require('../package/index.cjs')
-console.log(name)
+console.clear()
+process.env.NODE_ENV = 'production'
+const { default: local } = require('../dist/cjs/index.js')
+console.log(local())

@@ -1,2 +1,8 @@
-import name from '../package/index.mjs'
-console.log(name)
+console.clear()
+import local from '../dist/mjs/index.js'
+console.log({ local })
+
+console.log('-----------------------')
+
+import npm from '@nazmussayad/npm'
+console.log({ npm })

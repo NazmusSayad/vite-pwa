@@ -1,37 +1,54 @@
 {
   "name": "vite-pwa",
+  "version": "1.0.0",
   "description": "This package helps you to cache your files with service worker.",
-  "version": "0.0.6",
-  "type": "commonjs",
-  "author": "https://github.com/NazmusSayad",
-  "scripts": {},
-  "license": "ISC",
+  "main": "./dist/mjs/index.js",
+  "types": "./dist/mjs/index.d.js",
   "exports": {
     ".": {
-      "require": "./package/index.cjs",
-      "import": "./package/index.mjs"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/mjs/index.js"
     }
+  },
+  "scripts": {
+    "cjs": "nodemon test/index.cjs",
+    "mjs": "nodemon test/index.mjs",
+    "dev": "node dist.js && tsc -p tsconfig-cjs.json -w",
+    "build": "node build.js",
+    "update": "node update.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "latest",
+    "node-ls-files": "^0.0.3",
+    "typescript": "latest"
+  },
+  "type": "module",
+  "license": "ISC",
+  "author": "https://github.com/NazmusSayad",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NazmusSayad/vite-pwa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NazmusSayad/vite-pwa/issues"
   },
   "keywords": [
     "pwa",
     "vite",
     "manifest",
-    "service worker",
-    "offline caching",
-    "offline web app",
-    "progressive web app",
-    "service worker caching",
-    "vite pwa",
-    "vite plugin",
-    "vite pwa plugin",
-    "vite plugin pwa"
+    "service-worker",
+    "offline-caching",
+    "offline-web-app",
+    "progressive-web-app",
+    "service-worker-caching",
+    "vite-pwa",
+    "vite-plugin",
+    "vite-pwa-plugin",
+    "vite-plugin-pwa"
   ],
-  "bugs": {
-    "url": "https://github.com/NazmusSayad/vite-pwa/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NazmusSayad/vite-pwa.git"
+  "engines": {
+    "node": "*"
   },
   "homepage": "https://github.com/NazmusSayad/vite-pwa#readme"
 }
