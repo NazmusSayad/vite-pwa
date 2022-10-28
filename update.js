@@ -17,10 +17,13 @@ const updateVersion = (state = 1) => {
 
     case 'minor':
       version[1] += state
+      version[2] = 0
       break
 
     case 'major':
       version[0] += state
+      version[1] = 0
+      version[2] = 0
       break
 
     default:
