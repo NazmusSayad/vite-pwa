@@ -1,6 +1,6 @@
 {
   "name": "vite-pwa",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This package helps you to cache your files with service worker.",
   "main": "./dist/mjs/index.js",
   "types": "./dist/mjs/index.d.js",
@@ -17,10 +17,11 @@
     "build": "node build.js",
     "update": "node update.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-ls-files": "^0.0.3"
+  },
   "devDependencies": {
     "@types/node": "latest",
-    "node-ls-files": "^0.0.3",
     "typescript": "latest"
   },
   "type": "module",
